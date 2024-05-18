@@ -1,4 +1,3 @@
-
 # Spring Angular Demo Project
 
 This project is a demonstration of integrating Angular frontend with Spring Boot backend, providing a seamless full-stack development experience tailored to your specific requirements.
