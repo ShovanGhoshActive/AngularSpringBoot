@@ -20,9 +20,9 @@ public class MyService {
      * Retrieves a list of All names from the 'test' table using MyDao. 
      * @return ResponseEntity<List<String>>: A response containing the list of names  or a no-content status.
      */
-    public ResponseEntity<List<String>> listOfNames() {
+    public List<String> listOfNames() {
         List<String> result = myDao.listOfNames();
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+        return result ;
     }
 
     /**
@@ -30,9 +30,9 @@ public class MyService {
      * @param myModel (MyModel): The model containing the name and ID to be saved or  updated.
      * @return ResponseEntity<String>: A response containing a success message or a  no-content status.
      */
-    public ResponseEntity<String> saveOrUpdate(MyModel myModel) {
+    public String saveOrUpdate(MyModel myModel) {
         String result = myDao.saveOrUpdateUnnamed(myModel.getName(), myModel.getId());
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+        return result ;
     }
 
     /**
@@ -40,9 +40,9 @@ public class MyService {
      * @param name (String): The name used as a condition for deletion.
      * @return ResponseEntity<String>: A response containing a success message or a  no-content status.
      */
-    public ResponseEntity<String> delete(String name) {
+    public String delete(String name) {
         String result = myDao.delete(name);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+        return result ;
     }
 
 }

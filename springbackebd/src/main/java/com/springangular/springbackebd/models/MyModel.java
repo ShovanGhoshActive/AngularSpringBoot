@@ -3,7 +3,17 @@ package com.springangular.springbackebd.models;
 public class MyModel {
 	private String name;
 	private Integer id;
+	
+	
+	public MyModel() {
+    }
+	
+	public MyModel(String name, Integer id) {
+		this.name = name;
+		this.id = id;
+	}
 
+ 
 	public String getName() {
 		return name;
 	}
@@ -20,8 +30,7 @@ public class MyModel {
 		this.id = id;
 	}
 
-	public MyModel(String name, Integer id) {
-		this.name = name;
-		this.id = id;
-	}
+
+	
+	
 }
