@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Repository;
 /**  MyDao is a Spring component responsible for database operations using both NamedParameterJdbcTemplate and JdbcTemplate.*/
 @Repository
 public class MyDao {
+	private static final Logger logger = LoggerFactory.getLogger(MyDao.class);
+
 	/*
 	 * private JdbcTemplate jdbcTemplate; 
 	 * public MyDao(DataSource dataSource) {
@@ -74,7 +78,12 @@ public class MyDao {
      * @return List<String>: A list of names.
      */
     public List<String> listOfNames() {
-        return namedParameterJdbcTemplate.query(READ_QUERY, (rs, rowNum) -> rs.getString("name"));
+    	try {
+            return namedParameterJdbcTemplate.query(READ_QUERY, (rs, rowNum) -> rs.getString("name"));
+        } catch (DataAccessException e) {
+            logger.error("Error retrieving list of names", e);
+            throw new RuntimeException("An error occurred while retrieving data.", e);
+        }
     }
 
     /**
@@ -142,7 +151,17 @@ public class MyDao {
      */
     public String delete(String name) {
         int successMessage = 0;
-        successMessage = jdbcOtherTemplate.update(DELETE_SQL, name);
+        if (name != null && !name.isEmpty()) {
+            try {
+                successMessage = jdbcOtherTemplate.update(DELETE_SQL, name);
+            } catch (DataAccessException e) {
+                logger.error("Error deleting data", e);
+                return "An error occurred while deleting data.";
+            }
+        } else {
+            return "Name cannot be null or empty.";
+        }
         return successMessage != 0 ? "Success!!" : "Oh! Some issue.";
     }
+    
 }
